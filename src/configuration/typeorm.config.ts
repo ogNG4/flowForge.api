@@ -1,19 +1,19 @@
-import { Injectable } from '@nestjs/common';
-import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
+import { registerAs } from '@nestjs/config';
+import { DataSource, DataSourceOptions } from 'typeorm';
 
-@Injectable()
-export class TypeOrmConfigService implements TypeOrmOptionsFactory {
-    createTypeOrmOptions(): TypeOrmModuleOptions {
-        return {
-            name: 'flowForge',
-            type: 'postgres',
-            host: process.env.DB_HOST,
-            port: Number(process.env.DB_PORT) ?? 5432,
-            username: process.env.DB_USER,
-            password: process.env.DB_PASSWORD,
-            database: process.env.DB_NAME,
-            synchronize: false,
-            entities: ['**/*.entity.js'],
-        };
-    }
-}
+const config = {
+    name: 'flowForge.dev',
+    type: 'postgres',
+    host: 'localhost',
+    port: 5432,
+    username: 'postgres',
+    password: 'root',
+    database: 'flowForge.dev',
+    synchronize: false,
+    autoLoadEntities: true,
+    entities: ['**/*.entity.js'],
+    migrations: ['dist/migrations/**/*{.js,.ts}'],
+};
+
+export default registerAs('typeorm', () => config);
+export const connectionSource = new DataSource(config as DataSourceOptions);

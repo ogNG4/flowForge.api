@@ -8,6 +8,7 @@ export class UserService {
     constructor(@InjectRepository(UserEntity) private userRepo: Repository<UserEntity>) {}
 
     findAll() {
+        console.log(process.env.DB_PASSWORD);
         return this.userRepo.find();
     }
 }

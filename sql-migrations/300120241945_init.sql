@@ -7,14 +7,5 @@ CREATE DATABASE "flowForge.dev"
     tablespace = pg_default
     connection limit = -1;
 
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
 CREATE SCHEMA application;
 
-CREATE TABLE application.users (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-     name VARCHAR(255) NOT NULL
-);
-
-
-INSERT INTO application.users (name) VALUES ('John Doe');

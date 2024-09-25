@@ -1,3 +1,4 @@
+import { AuthUserDataModule } from './modules/business/authUserData/authUserData.module';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -6,8 +7,8 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 // import { TypeOrmConfigService } from './configuration/typeorm.config';
 import { envSchema } from './configuration/env.schema';
 import { join } from 'path';
-import { UserModule } from './modules/business/user/user.module';
 import typeorm from './configuration/typeorm.config';
+import { UtilsModule } from './modules/utils';
 @Module({
     imports: [
         ConfigModule.forRoot({
@@ -28,8 +29,8 @@ import typeorm from './configuration/typeorm.config';
                 return options;
             },
         }),
-
-        UserModule,
+        UtilsModule,
+        AuthUserDataModule,
     ],
     controllers: [AppController],
     providers: [AppService],

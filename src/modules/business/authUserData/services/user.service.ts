@@ -11,4 +11,8 @@ export class UserService {
         console.log(process.env.DB_PASSWORD);
         return this.userRepo.find();
     }
+
+    async findOneByEmail(email: string) {
+        return this.userRepo.findOneBy({ email });
+    }
 }

@@ -1,7 +1,10 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { OrganizationInvitationEntity, OrganizationMemberEntity } from '../../organization/db';
+import { BaseEntity } from '~/entities';
+import { ProjectTaskEntity } from '../../project/db/projectTask.entity';
 
 @Entity({ schema: 'application', name: 'users' })
-export class UserEntity {
+export class UserEntity extends BaseEntity {
     @PrimaryGeneratedColumn('uuid', { name: 'id' })
     id: string;
 
@@ -23,6 +26,12 @@ export class UserEntity {
     @Column({ name: 'is_active', type: 'boolean', default: true })
     isActive: boolean;
 
-    @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
-    createdAt: Date;
+    @OneToMany(() => OrganizationMemberEntity, (member) => member.user)
+    organizations: OrganizationMemberEntity[];
+
+    @OneToMany(() => OrganizationInvitationEntity, (invitation) => invitation.user)
+    organizationInvitations: OrganizationInvitationEntity[];
+
+    @OneToMany(() => ProjectTaskEntity, (task) => task.assignedUser)
+    projectTasks: ProjectTaskEntity[];
 }

@@ -8,7 +8,7 @@ import { UserService } from './user.service';
 import * as crypto from 'crypto';
 import { JwtService } from '@nestjs/jwt';
 import { Response } from 'express';
-import { Token } from '~/modules/utils/auth/types/token';
+import { AccessToken } from '~/modules/utils/auth/types/token';
 
 @Injectable()
 export class AuthService {
@@ -32,7 +32,7 @@ export class AuthService {
     }
 
     async createAccesToken(payload: any) {
-        return this.jwtService.signAsync(payload, { expiresIn: '15m' });
+        return this.jwtService.signAsync(payload, { expiresIn: '1d' });
     }
 
     async createRefreshToken(payload: any) {
@@ -63,7 +63,7 @@ export class AuthService {
 
         if (!user.isActive || !isPasswordCorrect) throw new UnauthorizedException('Invalid credentials');
 
-        const tokenPayload: Token = {
+        const tokenPayload: AccessToken = {
             id: user.id,
             email: user.email,
         };

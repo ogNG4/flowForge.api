@@ -1,5 +1,5 @@
 import { AuthUserDataModule } from './modules/business/authUserData/authUserData.module';
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -9,6 +9,10 @@ import { envSchema } from './configuration/env.schema';
 import { join } from 'path';
 import typeorm from './configuration/typeorm.config';
 import { UtilsModule } from './modules/utils';
+import { OrganizationModule } from './modules/business/organization/organization.module';
+import { AuthMiddleware } from './middlewares';
+import { JwtService } from '@nestjs/jwt';
+import { ProjectModule } from './modules/business/project/project.module';
 @Module({
     imports: [
         ConfigModule.forRoot({
@@ -31,8 +35,14 @@ import { UtilsModule } from './modules/utils';
         }),
         UtilsModule,
         AuthUserDataModule,
+        OrganizationModule,
+        ProjectModule,
     ],
     controllers: [AppController],
-    providers: [AppService],
+    providers: [AppService, JwtService],
 })
-export class AppModule {}
+export class AppModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer.apply(AuthMiddleware).exclude({ path: 'auth/(.*)', method: RequestMethod.ALL }).forRoutes('*');
+    }
+}

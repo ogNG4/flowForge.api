@@ -8,6 +8,7 @@ import { CurrentUser } from '~/modules/utils/auth/types/token';
 import { UpdateTaskColumnInputDto } from '../types/inputDto/updateTaskColumn.input.dto';
 import { UpdateTaskInputDto } from '../types/inputDto/updateTask.input.dto';
 import { TaskDetailsDto } from '../types/dto/taskDetailsDto';
+import { TaskTimeLogInputDto } from '../types/inputDto/taskTimeLog.input.dto';
 
 @ApiTags('Project Task')
 @Controller('project-task')
@@ -47,5 +48,10 @@ export class ProjectTaskController {
     @Put()
     async updateTask(@Body() input: UpdateTaskInputDto, @UserClaims() user: CurrentUser) {
         return this.projectTaskService.updateTask(input, user);
+    }
+
+    @Post('time-log')
+    async createTimeLog(@Body() input: TaskTimeLogInputDto, @UserClaims() user: CurrentUser) {
+        return this.projectTaskService.createTimeLog(input, user);
     }
 }

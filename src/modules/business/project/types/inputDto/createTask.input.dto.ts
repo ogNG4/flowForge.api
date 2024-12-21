@@ -33,4 +33,8 @@ export class CreateTaskInputDto {
     @ApiProperty({ type: String, required: false })
     @IsOptional()
     assignedUserId: string;
+
+    @ApiProperty({ type: Number, required: false })
+    @IsOptional()
+    estimatedTime: number;
 }

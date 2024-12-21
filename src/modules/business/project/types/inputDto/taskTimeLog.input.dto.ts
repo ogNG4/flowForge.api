@@ -7,9 +7,6 @@ export class TaskTimeLogInputDto {
     @ApiProperty({ type: Number })
     timeSpent: number;
 
-    @ApiProperty({ type: Date })
-    logDate: Date;
-
     @ApiProperty({ type: String, required: false })
     description?: string;
 }

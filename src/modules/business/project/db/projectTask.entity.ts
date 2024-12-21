@@ -32,6 +32,9 @@ export class ProjectTaskEntity extends BaseEntity {
     @Column({ name: 'column_id', type: 'uuid' })
     columnId: string;
 
+    @Column({ name: 'estimated_time', type: 'int', default: 0 })
+    estimatedTime: number;
+
     @ManyToOne(() => UserEntity, (user) => user.projectTasks)
     @JoinColumn({ name: 'assigned_user_id' })
     assignedUser: UserEntity | null;

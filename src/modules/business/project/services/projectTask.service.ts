@@ -59,6 +59,7 @@ export class ProjectTaskService {
             columnId: input.columnId,
             createdBy: CurrentUser.id,
             assignedUser: input.assignedUserId ? { id: input.assignedUserId } : null,
+            estimatedTime: input.estimatedTime || 0,
         });
         const newTask = await this.projectTaskRepo.save(task);
         await this.projectTaskRepo.update({ aboveTaskId: IsNull(), id: Not(newTask.id) }, { aboveTaskId: newTask.id });
@@ -73,6 +74,7 @@ export class ProjectTaskService {
                 priority: payload.priority,
                 updatedBy: currentUser.id,
                 assignedUser: payload.assignedUserId ? { id: payload.assignedUserId } : null,
+                estimatedTime: payload.estimatedTime || 0,
             }
         );
     }
@@ -87,7 +89,7 @@ export class ProjectTaskService {
     async getTaskDetails(taskId: string): Promise<TaskDetailsDto> {
         const task = await this.projectTaskRepo.findOne({
             where: { id: taskId },
-            relations: ['assignedUser', 'project', 'project.organization'],
+            relations: ['assignedUser', 'project', 'project.organization', 'timeLogs', 'timeLogs.user'],
         });
         if (!task) {
             throw new NotFoundException('Task not found');
@@ -110,6 +112,18 @@ export class ProjectTaskService {
             aboveTaskId: task.aboveTaskId,
             columnId: task.columnId,
             organizationId: task.project.organizationId,
+            timeLogs: task.timeLogs.map((timeLog) => ({
+                id: timeLog.id,
+                timeSpent: timeLog.timeSpent,
+                logDate: timeLog.logDate,
+                description: timeLog.description || '',
+                user: {
+                    id: timeLog.user.id,
+                    name: timeLog.user.firstName + ' ' + timeLog.user.lastName,
+                },
+            })),
+            totalTimeSpent: task.timeLogs.reduce((acc, timeLog) => acc + timeLog.timeSpent, 0),
+            estimatedTime: task.estimatedTime,
         };
     }
 
@@ -118,7 +132,7 @@ export class ProjectTaskService {
             taskId: payload.taskId,
             userId: currentUser.id,
             timeSpent: payload.timeSpent,
-            logDate: payload.logDate,
+            logDate: new Date(),
             description: payload.description,
         });
         return this.taskTimeLogRepo.save(timeLog);

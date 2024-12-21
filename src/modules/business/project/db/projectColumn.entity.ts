@@ -1,6 +1,7 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ProjectEntity } from '.';
 import { BaseEntity } from '~/entities';
+import { ProjectTaskEntity } from './projectTask.entity';
 
 @Entity({ schema: 'application', name: 'project_columns' })
 export class ProjectColumnEntity extends BaseEntity {
@@ -19,4 +20,7 @@ export class ProjectColumnEntity extends BaseEntity {
     @ManyToOne(() => ProjectEntity, (project) => project.columns)
     @JoinColumn({ name: 'project_id' })
     project: ProjectEntity;
+
+    @OneToMany(() => ProjectTaskEntity, (task) => task.column)
+    tasks: ProjectTaskEntity[];
 }

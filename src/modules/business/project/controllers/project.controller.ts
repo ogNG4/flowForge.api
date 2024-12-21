@@ -34,4 +34,14 @@ export class ProjectController {
     async getAllUserProjects(@UserClaims() userClaims: CurrentUser) {
         return this.projectService.getAllUserProjects(userClaims.id);
     }
+
+    @Get('details/:projectId')
+    @ApiResponse({
+        status: 200,
+        description: 'Get project details',
+        type: ProjectDto,
+    })
+    async getProjectDetails(@Param('projectId') projectId: string) {
+        return this.projectService.getProjectDetails(projectId);
+    }
 }

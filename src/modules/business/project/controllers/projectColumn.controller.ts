@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { ProjectColumnService } from '../services/projectColumn.service';
 import { ApiResponse } from '@nestjs/swagger';
 import { ProjectColumnDto } from '../types/dto/projectColumn.dto';

@@ -9,6 +9,7 @@ import { UpdateTaskColumnInputDto } from '../types/inputDto/updateTaskColumn.inp
 import { UpdateTaskInputDto } from '../types/inputDto/updateTask.input.dto';
 import { TaskDetailsDto } from '../types/dto/taskDetailsDto';
 import { TaskTimeLogInputDto } from '../types/inputDto/taskTimeLog.input.dto';
+import { BoardTaskDto } from '../types/dto/boardTaskDto';
 
 @ApiTags('Project Task')
 @Controller('project-task')
@@ -33,6 +34,16 @@ export class ProjectTaskController {
     })
     async getTaskDetails(@Param('taskId') taskId: string) {
         return this.projectTaskService.getTaskDetails(taskId);
+    }
+
+    @Get(':projectId/backlog')
+    @ApiResponse({
+        status: 200,
+        description: 'Get backlog by project id',
+        type: [BoardTaskDto],
+    })
+    async getBacklogByProjectId(@Param('projectId') projectId: string) {
+        return this.projectTaskService.getBacklogByProjectId(projectId);
     }
 
     @Post()

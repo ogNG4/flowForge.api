@@ -11,6 +11,7 @@ import { TaskDetailsDto } from '../types/dto/taskDetailsDto';
 import { UpdateTaskInputDto } from '../types/inputDto/updateTask.input.dto';
 import { TaskTimeLogInputDto } from '../types/inputDto/taskTimeLog.input.dto';
 import { TaskTimeLogRepository } from '../repositories/taskTimeLog.repository';
+import { BoardTaskDto } from '../types/dto/boardTaskDto';
 
 @Injectable()
 export class ProjectTaskService {
@@ -60,6 +61,7 @@ export class ProjectTaskService {
             createdBy: CurrentUser.id,
             assignedUser: input.assignedUserId ? { id: input.assignedUserId } : null,
             estimatedTime: input.estimatedTime || 0,
+            isBacklog: input.isBacklog || false,
         });
         const newTask = await this.projectTaskRepo.save(task);
         await this.projectTaskRepo.update({ aboveTaskId: IsNull(), id: Not(newTask.id) }, { aboveTaskId: newTask.id });
@@ -125,6 +127,31 @@ export class ProjectTaskService {
             totalTimeSpent: task.timeLogs.reduce((acc, timeLog) => acc + timeLog.timeSpent, 0),
             estimatedTime: task.estimatedTime,
         };
+    }
+
+    async getBacklogByProjectId(projectId: string): Promise<BoardTaskDto[]> {
+        const backlog = await this.projectTaskRepo.find({
+            where: { projectId, isBacklog: true },
+            relations: ['assignedUser'],
+        });
+        return backlog.map((task) => {
+            return {
+                id: task.id,
+                name: task.name,
+                code: task.code,
+                assignedUser: task.assignedUser
+                    ? {
+                          id: task.assignedUser.id,
+                          name: task.assignedUser.firstName + ' ' + task.assignedUser.lastName,
+                      }
+                    : {
+                          id: '',
+                          name: '',
+                      },
+                priority: task.priority,
+                aboveTaskId: task.aboveTaskId ? task.aboveTaskId : null,
+            };
+        });
     }
 
     async createTimeLog(payload: TaskTimeLogInputDto, currentUser: CurrentUser) {

@@ -46,6 +46,7 @@ export class ProjectBoardService {
 
         return {
             columns: project.columns.map((column) => this.toProjectColumnWithTasksDto(column)),
+            organizationId: project.organizationId,
         };
     }
 }

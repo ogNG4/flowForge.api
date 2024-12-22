@@ -37,4 +37,8 @@ export class CreateTaskInputDto {
     @ApiProperty({ type: Number, required: false })
     @IsOptional()
     estimatedTime: number;
+
+    @ApiProperty({ type: Boolean, required: false })
+    @IsOptional()
+    isBacklog: boolean;
 }

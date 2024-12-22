@@ -35,6 +35,9 @@ export class ProjectTaskEntity extends BaseEntity {
     @Column({ name: 'estimated_time', type: 'int', default: 0 })
     estimatedTime: number;
 
+    @Column({ name: 'is_backlog', type: 'boolean', default: false })
+    isBacklog: boolean;
+
     @ManyToOne(() => UserEntity, (user) => user.projectTasks)
     @JoinColumn({ name: 'assigned_user_id' })
     assignedUser: UserEntity | null;

@@ -4,4 +4,7 @@ import { ProjectColumnWithTasksDto } from './projectColumnWithTasksDto';
 export class ProjectBoardDto {
     @ApiProperty({ type: [ProjectColumnWithTasksDto] })
     columns: ProjectColumnWithTasksDto[];
+
+    @ApiProperty()
+    organizationId: string;
 }

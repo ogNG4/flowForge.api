@@ -126,6 +126,7 @@ export class ProjectTaskService {
             })),
             totalTimeSpent: task.timeLogs.reduce((acc, timeLog) => acc + timeLog.timeSpent, 0),
             estimatedTime: task.estimatedTime,
+            isBacklog: task.isBacklog,
         };
     }
 
@@ -150,6 +151,7 @@ export class ProjectTaskService {
                       },
                 priority: task.priority,
                 aboveTaskId: task.aboveTaskId ? task.aboveTaskId : null,
+                isBacklog: task.isBacklog,
             };
         });
     }

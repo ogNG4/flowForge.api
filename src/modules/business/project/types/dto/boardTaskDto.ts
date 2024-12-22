@@ -20,4 +20,7 @@ export class BoardTaskDto {
 
     @ApiProperty()
     aboveTaskId: string | null;
+
+    @ApiProperty()
+    isBacklog: boolean;
 }

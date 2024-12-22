@@ -29,6 +29,7 @@ export class ProjectBoardService {
                           },
                     priority: task.priority,
                     aboveTaskId: task.aboveTaskId,
+                    isBacklog: task.isBacklog,
                 };
             }),
         };

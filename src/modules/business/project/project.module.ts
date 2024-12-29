@@ -15,9 +15,21 @@ import { ProjectTaskService } from './services/projectTask.service';
 import { ProjectTaskRepository } from './repositories/projectTask.repository';
 import { TaskTimeLogEntity } from './db/taskTimeLog.entity';
 import { TaskTimeLogRepository } from './repositories/taskTimeLog.repository';
+import { ProjectSprintEntity } from './db/projectSprint.entity';
+import { ProjectSprintRepository } from './repositories/projectSprint.repository';
+import { ProjectSprintController } from './controllers/projectSprint.controller';
+import { ProjectSprintService } from './services/projectSprint.service';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([ProjectEntity, ProjectColumnEntity, ProjectTaskEntity, TaskTimeLogEntity])],
+    imports: [
+        TypeOrmModule.forFeature([
+            ProjectEntity,
+            ProjectColumnEntity,
+            ProjectTaskEntity,
+            TaskTimeLogEntity,
+            ProjectSprintEntity,
+        ]),
+    ],
     providers: [
         ProjectService,
         ProjectColumnService,
@@ -27,8 +39,10 @@ import { TaskTimeLogRepository } from './repositories/taskTimeLog.repository';
         ProjectTaskService,
         ProjectTaskRepository,
         TaskTimeLogRepository,
+        ProjectSprintRepository,
+        ProjectSprintService,
     ],
-    controllers: [ProjectController, ProjectBoardController, ProjectTaskController],
+    controllers: [ProjectController, ProjectBoardController, ProjectTaskController, ProjectSprintController],
     exports: [ProjectService],
 })
 export class ProjectModule {}

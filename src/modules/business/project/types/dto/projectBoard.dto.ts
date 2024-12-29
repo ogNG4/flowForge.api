@@ -7,4 +7,7 @@ export class ProjectBoardDto {
 
     @ApiProperty()
     organizationId: string;
+
+    @ApiProperty()
+    name: string;
 }

@@ -19,6 +19,7 @@ export class OrganizationService {
         const organization = new OrganizationEntity();
         organization.name = payload.name;
         organization.createdBy = user.id;
+        organization.description = payload.description;
 
         const { id } = await this.organizationRepo.create(organization);
         await this.createOrganizationOwner(id, user.id);

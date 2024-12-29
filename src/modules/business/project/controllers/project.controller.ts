@@ -5,6 +5,7 @@ import { ProjectService } from '../services/project.service';
 import { CreateProjectInputDto } from '../types/inputDto/createProject.input.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ProjectDto } from '../types/dto/project.dto';
+import { ProjectTimeSpentDto } from '../types/dto/projectTimeSpent.dto';
 
 @Controller('project')
 @ApiTags('Project')
@@ -43,5 +44,15 @@ export class ProjectController {
     })
     async getProjectDetails(@Param('projectId') projectId: string) {
         return this.projectService.getProjectDetails(projectId);
+    }
+
+    @Get('time-spent/:projectId')
+    @ApiResponse({
+        status: 200,
+        description: 'Get project time statistics',
+        type: ProjectTimeSpentDto,
+    })
+    async getProjectTimeStats(@Param('projectId') projectId: string) {
+        return this.projectService.getProjectTimeStats(projectId);
     }
 }

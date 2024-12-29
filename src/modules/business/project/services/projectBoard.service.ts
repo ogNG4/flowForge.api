@@ -3,6 +3,9 @@ import { ProjectRepository } from '../repositories/project.repository';
 import { ProjectColumnWithTasksDto } from '../types/dto/projectColumnWithTasksDto';
 import { ProjectColumnEntity } from '../db/projectColumn.entity';
 import { ProjectBoardDto } from '../types/dto/projectBoard.dto';
+import { ProjectSprintRepository } from '../repositories/projectSprint.repository';
+import { ProjectSprintEntity } from '../db/projectSprint.entity';
+import { SprintDto } from '../types/dto/sprint.dto';
 
 @Injectable()
 export class ProjectBoardService {
@@ -37,7 +40,9 @@ export class ProjectBoardService {
 
     async getProjectBoard(projectId: string): Promise<ProjectBoardDto> {
         const project = await this.projectRepo.findOne({
-            where: { id: projectId },
+            where: {
+                id: projectId,
+            },
             relations: ['columns', 'columns.tasks', 'columns.tasks.assignedUser'],
         });
 
@@ -46,8 +51,15 @@ export class ProjectBoardService {
         }
 
         return {
-            columns: project.columns.map((column) => this.toProjectColumnWithTasksDto(column)),
+            columns: project.columns.map((column) => {
+                const columnDto = this.toProjectColumnWithTasksDto(column);
+                return {
+                    ...columnDto,
+                    tasks: columnDto.tasks.filter((task) => !task.isBacklog),
+                };
+            }),
             organizationId: project.organizationId,
+            name: project.name,
         };
     }
 }

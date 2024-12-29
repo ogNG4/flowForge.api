@@ -3,6 +3,7 @@ import { BaseEntity } from '~/entities';
 import { OrganizationEntity } from '../../organization/db';
 import { ProjectTaskEntity } from './projectTask.entity';
 import { ProjectColumnEntity } from './projectColumn.entity';
+import { ProjectSprintEntity } from './projectSprint.entity';
 
 @Entity({ schema: 'application', name: 'projects' })
 export class ProjectEntity extends BaseEntity {
@@ -26,4 +27,7 @@ export class ProjectEntity extends BaseEntity {
 
     @OneToMany(() => ProjectColumnEntity, (column) => column.project)
     columns: ProjectColumnEntity[];
+
+    @OneToMany(() => ProjectSprintEntity, (sprint) => sprint.project)
+    sprints: ProjectSprintEntity[];
 }

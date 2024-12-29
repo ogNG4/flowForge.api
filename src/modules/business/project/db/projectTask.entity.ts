@@ -5,6 +5,7 @@ import { ProjectEntity } from '.';
 import { ProjectColumnEntity } from './projectColumn.entity';
 import { TaskPriority } from '~/types/domain';
 import { TaskTimeLogEntity } from './taskTimeLog.entity';
+import { ProjectSprintEntity } from './projectSprint.entity';
 
 @Entity({ schema: 'application', name: 'project_tasks' })
 export class ProjectTaskEntity extends BaseEntity {
@@ -52,4 +53,8 @@ export class ProjectTaskEntity extends BaseEntity {
 
     @OneToMany(() => TaskTimeLogEntity, (timeLog) => timeLog.task)
     timeLogs: TaskTimeLogEntity[];
+
+    @ManyToOne(() => ProjectSprintEntity, (sprint) => sprint.tasks)
+    @JoinColumn({ name: 'sprint_id' })
+    sprint: ProjectSprintEntity | null;
 }

@@ -23,4 +23,7 @@ export class BoardTaskDto {
 
     @ApiProperty()
     isBacklog: boolean;
+
+    @ApiProperty({ required: false })
+    sprint?: { id: string } | null;
 }

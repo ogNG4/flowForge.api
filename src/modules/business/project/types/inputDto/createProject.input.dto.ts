@@ -16,4 +16,9 @@ export class CreateProjectInputDto {
     @IsNotEmpty()
     @ApiProperty({})
     organizationId: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @ApiProperty({ maxLength: 255, nullable: true })
+    description: string;
 }

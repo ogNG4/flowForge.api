@@ -16,6 +16,9 @@ export class ProjectEntity extends BaseEntity {
     @Column({ name: 'code', type: 'varchar', length: 255 })
     code: string;
 
+    @Column({ name: 'description', type: 'varchar', length: 255, nullable: true })
+    description: string;
+
     @Column({ name: 'organization_id', type: 'uuid' })
     organizationId: string;
 

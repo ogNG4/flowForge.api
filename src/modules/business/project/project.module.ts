@@ -19,6 +19,7 @@ import { ProjectSprintEntity } from './db/projectSprint.entity';
 import { ProjectSprintRepository } from './repositories/projectSprint.repository';
 import { ProjectSprintController } from './controllers/projectSprint.controller';
 import { ProjectSprintService } from './services/projectSprint.service';
+import { ProjectColumnController } from './controllers/projectColumn.controller';
 
 @Module({
     imports: [
@@ -41,8 +42,15 @@ import { ProjectSprintService } from './services/projectSprint.service';
         TaskTimeLogRepository,
         ProjectSprintRepository,
         ProjectSprintService,
+        ProjectColumnService,
     ],
-    controllers: [ProjectController, ProjectBoardController, ProjectTaskController, ProjectSprintController],
+    controllers: [
+        ProjectController,
+        ProjectBoardController,
+        ProjectTaskController,
+        ProjectSprintController,
+        ProjectColumnController,
+    ],
     exports: [ProjectService],
 })
 export class ProjectModule {}

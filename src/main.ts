@@ -6,7 +6,7 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
     app.useGlobalPipes(new ValidationPipe());
-    const config = new DocumentBuilder().setTitle('FlowForge API').setVersion('1.0').addTag('flowForge').build();
+    const config = new DocumentBuilder().setTitle('Praca iżynierska API').setVersion('1.0').addTag('praca-iżynierska').build();
 
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('api', app, document);

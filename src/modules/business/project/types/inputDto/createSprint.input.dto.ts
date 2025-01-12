@@ -5,7 +5,7 @@ import { Type } from 'class-transformer';
 export class CreateSprintInputDto {
     @ApiProperty()
     @IsString()
-    name: string;
+    goal: string;
 
     @ApiProperty()
     @Type(() => Date)
@@ -23,5 +23,5 @@ export class CreateSprintInputDto {
 
     @ApiProperty()
     @IsBoolean()
-    isActive: boolean;
+    moveToNext: boolean;
 }

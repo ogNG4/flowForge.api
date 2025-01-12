@@ -13,6 +13,7 @@ import { OrganizationModule } from './modules/business/organization/organization
 import { AuthMiddleware } from './middlewares';
 import { JwtService } from '@nestjs/jwt';
 import { ProjectModule } from './modules/business/project/project.module';
+
 @Module({
     imports: [
         ConfigModule.forRoot({

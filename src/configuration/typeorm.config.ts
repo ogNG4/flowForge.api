@@ -2,13 +2,13 @@ import { registerAs } from '@nestjs/config';
 import { DataSource, DataSourceOptions } from 'typeorm';
 
 const config = {
-    name: 'flowForge.dev',
+    name: 'tablica-kanban',
     type: 'postgres',
     host: 'localhost',
     port: 5432,
     username: 'postgres',
     password: 'root',
-    database: 'flowForge.dev',
+    database: 'tablica-kanban',
     synchronize: false,
     autoLoadEntities: true,
     entities: ['**/*.entity.js'],

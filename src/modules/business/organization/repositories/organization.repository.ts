@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { Brackets, IsNull, Repository } from 'typeorm';
-import { OrganizationEntity } from '../db';
+import { Brackets, In, IsNull, Repository } from 'typeorm';
+import { OrganizationEntity, OrganizationMemberEntity } from '../db';
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
@@ -17,18 +17,19 @@ export class OrganizationRepository {
     async getAllByUserId(userId: string): Promise<OrganizationEntity[]> {
         return this.repository
             .createQueryBuilder('organization')
-            .leftJoinAndSelect('organization.members', 'member')
-            .leftJoinAndSelect('member.user', 'user')
-            .where(
-                new Brackets((qb) => {
-                    qb.where('member.userId = :userId', { userId }).orWhere('member.role = :ownerRole', {
-                        ownerRole: 'OWNER',
-                    });
-                })
-            )
+            .leftJoinAndSelect('organization.members', 'members')
+            .leftJoinAndSelect('members.user', 'user')
+            .where((qb) => {
+                const subQuery = qb
+                    .subQuery()
+                    .select('member.organizationId')
+                    .from(OrganizationMemberEntity, 'member')
+                    .where('member.userId = :userId')
+                    .getQuery();
+                return 'organization.id IN ' + subQuery;
+            })
+            .setParameter('userId', userId)
             .andWhere('organization.deletedAt IS NULL')
-            .andWhere('member.deletedAt IS NULL')
-            .select(['organization', 'member', 'user'])
             .getMany();
     }
 }

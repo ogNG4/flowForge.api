@@ -42,6 +42,7 @@ export class OrganizationService {
         return organizations.map((organization) => {
             const userMember = organization.members.find((member) => member.userId === user.id);
             const ownerMember = organization.members.find((member) => member.role === OrganizationMemberRole.OWNER);
+
             return {
                 id: organization.id,
                 name: organization.name,

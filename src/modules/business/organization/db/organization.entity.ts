@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { OrganizationInvitationEntity, OrganizationMemberEntity } from '.';
+import { OrganizationMemberEntity } from '.';
 import { BaseEntity } from '~/entities';
 import { ProjectEntity } from '../../project/db/project.entity';
 
@@ -16,9 +16,6 @@ export class OrganizationEntity extends BaseEntity {
 
     @OneToMany(() => OrganizationMemberEntity, (member) => member.organization)
     members: OrganizationMemberEntity[];
-
-    @OneToMany(() => OrganizationInvitationEntity, (invitation) => invitation.organization)
-    invitations: OrganizationInvitationEntity[];
 
     @ManyToOne(() => ProjectEntity, (project) => project.organization)
     @JoinColumn({ name: 'project_id' })

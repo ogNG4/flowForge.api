@@ -12,13 +12,15 @@ import { UpdateTaskInputDto } from '../types/inputDto/updateTask.input.dto';
 import { TaskTimeLogInputDto } from '../types/inputDto/taskTimeLog.input.dto';
 import { TaskTimeLogRepository } from '../repositories/taskTimeLog.repository';
 import { BoardTaskDto } from '../types/dto/boardTaskDto';
+import { ProjectSprintRepository } from '../repositories/projectSprint.repository';
 
 @Injectable()
 export class ProjectTaskService {
     constructor(
         private readonly projectTaskRepo: ProjectTaskRepository,
         private readonly projectRepo: ProjectRepository,
-        private readonly taskTimeLogRepo: TaskTimeLogRepository
+        private readonly taskTimeLogRepo: TaskTimeLogRepository,
+        private readonly sprintRepo: ProjectSprintRepository
     ) {}
 
     async getNewestTask(projectId: string): Promise<NewestTaskDto> {
@@ -51,6 +53,7 @@ export class ProjectTaskService {
         }
 
         const code = await this.createCode(project);
+        const activeSprint = await this.sprintRepo.findActiveSprintByProjectId(project.id);
         const task = this.projectTaskRepo.create({
             name: input.name,
             content: input.content,
@@ -62,6 +65,7 @@ export class ProjectTaskService {
             assignedUser: input.assignedUserId ? { id: input.assignedUserId } : null,
             estimatedTime: input.estimatedTime || 0,
             isBacklog: input.isBacklog || false,
+            sprint: activeSprint ? { id: activeSprint.id } : null,
         });
         const newTask = await this.projectTaskRepo.save(task);
         await this.projectTaskRepo.update({ aboveTaskId: IsNull(), id: Not(newTask.id) }, { aboveTaskId: newTask.id });

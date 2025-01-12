@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { MaxLength } from 'class-validator';
+import { IsOptional, MaxLength } from 'class-validator';
 
 export class CreateOrganizationInputDto {
     @ApiProperty({ maxLength: 50 })
@@ -8,5 +8,6 @@ export class CreateOrganizationInputDto {
 
     @ApiProperty({ maxLength: 255, nullable: true })
     @MaxLength(255)
+    @IsOptional()
     description: string;
 }

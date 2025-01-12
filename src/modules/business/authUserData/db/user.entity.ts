@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { OrganizationInvitationEntity, OrganizationMemberEntity } from '../../organization/db';
+import { OrganizationMemberEntity } from '../../organization/db';
 import { BaseEntity } from '~/entities';
 import { ProjectTaskEntity } from '../../project/db/projectTask.entity';
 
@@ -28,9 +28,6 @@ export class UserEntity extends BaseEntity {
 
     @OneToMany(() => OrganizationMemberEntity, (member) => member.user)
     organizations: OrganizationMemberEntity[];
-
-    @OneToMany(() => OrganizationInvitationEntity, (invitation) => invitation.user)
-    organizationInvitations: OrganizationInvitationEntity[];
 
     @OneToMany(() => ProjectTaskEntity, (task) => task.assignedUser)
     projectTasks: ProjectTaskEntity[];

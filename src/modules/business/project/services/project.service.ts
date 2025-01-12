@@ -42,6 +42,7 @@ export class ProjectService {
         project.code = payload.code;
         project.organizationId = payload.organizationId;
         project.createdBy = claims.id;
+        project.description = payload.description;
 
         const newProject = await this.projectRepo.save(project);
         await this.projectColumnService.createDefaultColumns(newProject.id, claims.id);

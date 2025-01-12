@@ -5,11 +5,13 @@ import { ProjectColumnEntity } from '../db/projectColumn.entity';
 import { ProjectBoardDto } from '../types/dto/projectBoard.dto';
 import { ProjectSprintRepository } from '../repositories/projectSprint.repository';
 import { ProjectSprintEntity } from '../db/projectSprint.entity';
-import { SprintDto } from '../types/dto/sprint.dto';
 
 @Injectable()
 export class ProjectBoardService {
-    constructor(private readonly projectRepo: ProjectRepository) {}
+    constructor(
+        private readonly projectRepo: ProjectRepository,
+        private readonly sprintRepo: ProjectSprintRepository
+    ) {}
 
     toProjectColumnWithTasksDto(column: ProjectColumnEntity): ProjectColumnWithTasksDto {
         return {

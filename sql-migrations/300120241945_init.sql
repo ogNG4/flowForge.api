@@ -1,4 +1,4 @@
-CREATE DATABASE "flowForge.dev"
+CREATE DATABASE "tablica-kanban"
     WITH
     owner = postgres
     encoding = 'utf8'
